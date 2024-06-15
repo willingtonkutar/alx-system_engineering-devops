@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Uses ssh to connect to server with private key and user given
 
-ssh -i ~/.ssh/school ubuntu@54.237.29.49
+ssh ubuntu@54.237.29.49
 
 # Exit the remote shell after successful connection
 exit
