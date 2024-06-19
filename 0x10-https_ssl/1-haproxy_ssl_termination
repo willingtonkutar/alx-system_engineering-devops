@@ -40,7 +40,9 @@ frontend dom-frontend
         http-request set-header X_Forwarded-Proto http
         default_backend dom-backend
 frontend dom-frontend-https
-        bind *:443 ssl crt /etc/letsencrypt/live/www.attabro.tech/fullchain.pem
+        bind *:443 ssl crt /etc/letsencrypt/live/www.willingtonkutar.tech/fullchain.pem /etc/letsencrypt/live/www.willingtonkutar.tech/privkey.pem
+        http-request set-header X-Forwarded-Proto https
+        default_backend dom-backend.tech/fullchain.pem
         http-request set-header X-Forwarded-Proto https
         default_backend dom-backend
 
