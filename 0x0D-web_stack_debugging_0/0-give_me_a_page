@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
-# Start Apache so as to return a
-# page conatining Hello Holberton
+# running apache on designated container and to return a page
+# containing Hello Holberton when querying the root of it
+
+echo "ServerName localhost" >> /etc/apache2.conf
 service apache2 start
