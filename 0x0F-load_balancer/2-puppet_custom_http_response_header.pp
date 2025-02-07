@@ -1,47 +1,30 @@
-# Ensure nginx is installed and running
+# Setup New Ubuntu server with nginx
+# and add a custom HTTP header
+
+exec { 'update system':
+        command => '/usr/bin/apt-get update',
+}
+
 package { 'nginx':
-  ensure => installed,
+	ensure => 'installed',
+	require => Exec['update system']
 }
 
-service { 'nginx':
-  ensure     => running,
-  enable     => true,
-  subscribe  => File['/etc/nginx/sites-available/default'],
+file {'/var/www/html/index.html':
+	content => 'Hello World!'
 }
 
-# Configure the default nginx site with the custom HTTP header
-file { '/etc/nginx/sites-available/default':
-  ensure  => file,
-  content => template('nginx/default.erb'),
-  notify  => Service['nginx'],
+exec {'redirect_me':
+	command => 'sed -i "24i\	rewrite ^/redirect_me https://th3-gr00t.tk/ permanent;" /etc/nginx/sites-available/default',
+	provider => 'shell'
 }
 
-# Ensure the template directory exists
-file { '/etc/puppetlabs/code/environments/production/modules/nginx/templates':
-  ensure => directory,
+exec {'HTTP header':
+	command => 'sed -i "25i\	add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
+	provider => 'shell'
 }
 
-# Create the template for the nginx default site configuration
-file { '/etc/puppetlabs/code/environments/production/modules/nginx/templates/default.erb':
-  ensure  => file,
-  content => @(EOF)
-<%
-# Get the hostname of the server
-hostname = @facts['networking']['hostname']
-%>
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    server_name _;
-
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
-
-    location / {
-        try_files $uri $uri/ =404;
-        add_header X-Served-By <%= hostname %>;
-    }
-}
-  EOF
+service {'nginx':
+	ensure => running,
+	require => Package['nginx']
 }
