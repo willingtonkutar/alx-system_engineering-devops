@@ -1,11 +1,23 @@
 #!/usr/bin/env bash
 # backup and compress my databases
 
+# Check if the password argument is provided
+if [ -z "$1" ]; then
+  echo "Usage: $0 <mysql_root_password>"
+  exit 1
+fi
+
 # variables
 day=$(date +"%d")
 month=$(date +"%m")
 year=$(date +"%Y")
 file_name="$day-$month-$year.tar.gz"
 
+# Create MySQL dump
 mysqldump --all-databases -u root --password="$1" > backup.sql
+
+# Compress the dump file
 tar -czvf "$file_name" backup.sql
+
+# Clean up the uncompressed SQL file
+rm backup.sql
