@@ -4,7 +4,7 @@
 # Get the PID of the Gunicorn master process
 PID=$(ps aux | grep '[g]unicorn' | awk '{print $2}')
 
-# Send the HUP signal to the Gunicorn master process to reload it gracefully
+# Check if the PID is found and send the HUP signal to the Gunicorn master process to reload it gracefully
 if [ -n "$PID" ]; then
     kill -HUP $PID
     echo "Gunicorn has been gracefully reloaded."
