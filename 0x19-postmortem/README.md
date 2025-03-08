@@ -1,6 +1,6 @@
 # Postmortem Report: Web Stack Outage
 
-![Postmortem Report](a_postmortem_report_image.png)
+![a postmortem report image](https://github.com/user-attachments/assets/55bf0f17-d0d2-42da-942f-e49427f59a77)
 
 ## Issue Summary
 **Duration of Outage:** July 1, 2025, 10:00 AM - 12:00 PM (EAT)
@@ -8,6 +8,8 @@
 **Impact:** The primary web service was down, resulting in 80% of users being unable to access the site. Users experienced error messages and slow loading times.
 
 **Root Cause:** The root cause was a misconfiguration in the Nginx server that led to a denial of service when traffic spiked unexpectedly.
+
+![someone who is late for something](https://github.com/user-attachments/assets/2cae79c8-8bbe-43d9-99b8-b14daa713ba5)
 
 ## Timeline
 - **10:00 AM:** Issue detected by monitoring alert indicating high error rates.
