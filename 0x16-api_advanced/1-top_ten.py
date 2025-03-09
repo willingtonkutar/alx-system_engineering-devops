@@ -4,22 +4,39 @@ Query Reddit API for titles of top ten posts of a given subreddit
 """
 import requests
 
-
 def top_ten(subreddit):
     """
-        return top ten titles for a given subreddit
-        return None if invalid subreddit given
+    Return top ten titles for a given subreddit
+    Return None if invalid subreddit given
     """
-    # setting a custom user agent
-    # https://stackoverflow.com/questions/10606133/ -->
-    # sending-user-agent-using-requests-library-in-python
+    # Setting a custom user agent
     headers = requests.utils.default_headers()
     headers.update({'User-Agent': 'My User Agent 1.0'})
 
     url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
-    r = requests.get(url, headers=headers).json()
-    top_ten = r.get('data', {}).get('children', [])
+    response = requests.get(url, headers=headers, allow_redirects=False)
+
+    # Check if the request was successful
+    if response.status_code != 200:
+        print(None)
+        return
+
+    # Parse the JSON response
+    try:
+        data = response.json()
+    except ValueError:
+        print(None)
+        return
+
+    # Extract the top ten posts
+    top_ten = data.get('data', {}).get('children', [])
     if not top_ten:
         print(None)
-    for t in top_ten:
-        print(t.get('data').get('title'))
+        return
+
+    # Print the titles of the top ten posts
+    for post in top_ten:
+        print(post.get('data', {}).get('title'))
+
+# Example usage:
+# top_ten('python')
