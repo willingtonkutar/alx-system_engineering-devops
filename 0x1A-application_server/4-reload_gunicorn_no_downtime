@@ -7,5 +7,5 @@ GUNICORN_PID=$(pgrep -f "gunicorn" | head -n 1)
 # If Gunicorn is running, reload it gracefully
 if [ -n "$GUNICORN_PID" ]; then
     kill -HUP "$GUNICORN_PID"
-    echo "OK"
+    echo -n "OK"
 fi
