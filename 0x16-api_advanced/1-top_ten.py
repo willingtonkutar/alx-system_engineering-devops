@@ -1,29 +1,25 @@
+#!/usr/bin/python3
 """
-Function to print hot posts on a given Reddit subreddit.
+Query Reddit API for titles of top ten posts of a given subreddit
 """
 import requests
 
+
 def top_ten(subreddit):
     """
-    Print the titles of the 10 hottest posts on a given subreddit.
+        return top ten titles for a given subreddit
+        return None if invalid subreddit given
     """
-    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
-    headers = {
-        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
-    }
-    params = {
-        "limit": 10
-    }
-    response = requests.get(url, headers=headers, params=params, allow_redirects=False)
-    if response.status_code != 200:
-        print("None")
-        return
-    results = response.json().get("data")
-    if results is None:
-        print("None")
-        return
-    for post in results.get("children", []):
-        print(post.get("data", {}).get("title"))
+    # setting a custom user agent
+    # https://stackoverflow.com/questions/10606133/ -->
+    # sending-user-agent-using-requests-library-in-python
+    headers = requests.utils.default_headers()
+    headers.update({'User-Agent': 'My User Agent 1.0'})
 
-# Example usage:
-# top_ten('python')
+    url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
+    r = requests.get(url, headers=headers).json()
+    top_ten = r.get('data', {}).get('children', [])
+    if not top_ten:
+        print(None)
+    for t in top_ten:
+        print(t.get('data').get('title'))
