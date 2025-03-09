@@ -1,13 +1,15 @@
 #!/bin/bash
-# This script gracefully reloads Gunicorn without downtime
+# Reload Gunicorn gracefully without downtime
 
-# Get the PID of the Gunicorn master process
-PID=$(ps aux | grep '[g]unicorn' | awk '{print $2}')
+echo "Reloading Gunicorn workers gracefully..."
 
-# Check if the PID is found and send the HUP signal to the Gunicorn master process to reload it gracefully
-if [ -n "$PID" ]; then
-    kill -HUP $PID
-    echo "Gunicorn has been gracefully reloaded."
+# Find the Gunicorn master process PID
+GUNICORN_PID=$(pgrep -f "gunicorn" | head -n 1)
+
+# If Gunicorn is running, reload it gracefully
+if [ -n "$GUNICORN_PID" ]; then
+    kill -HUP "$GUNICORN_PID"
+    echo "Gunicorn master process $GUNICORN_PID reloaded successfully."
 else
-    echo "Gunicorn master process not found."
+    echo "Gunicorn is not running!"
 fi
