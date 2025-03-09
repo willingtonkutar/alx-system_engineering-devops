@@ -1,8 +1,7 @@
 server {
     listen 80;
-    server_name 54.90.35.16;  # Change this if needed
+    server_name 54.90.35.16;  # Change to your actual public IP or domain
 
-    # Proxy for /airbnb-onepage/ -> Gunicorn on port 5000
     location /airbnb-onepage/ {
         proxy_pass http://127.0.0.1:5000;
         proxy_set_header Host $host;
@@ -12,7 +11,6 @@ server {
         try_files $uri $uri/ =404;
     }
 
-    # Proxy for /airbnb-dynamic/number_odd_or_even/ -> Gunicorn on port 5001
     location /airbnb-dynamic/number_odd_or_even/ {
         proxy_pass http://127.0.0.1:5001;
         proxy_set_header Host $host;
