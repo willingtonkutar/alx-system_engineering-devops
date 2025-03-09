@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
 # Reload Gunicorn gracefully without downtime
 
-echo "Reloading Gunicorn workers gracefully..."
-
 # Find the Gunicorn master process PID
 GUNICORN_PID=$(pgrep -f "gunicorn" | head -n 1)
 
 # If Gunicorn is running, reload it gracefully
 if [ -n "$GUNICORN_PID" ]; then
     kill -HUP "$GUNICORN_PID"
-    echo "Gunicorn master process $GUNICORN_PID reloaded successfully."
-else
-    echo "Gunicorn is not running!"
+    echo "OK"
 fi
