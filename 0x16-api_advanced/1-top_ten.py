@@ -38,6 +38,3 @@ def top_ten(subreddit):
     # Print the titles of the top ten posts
     for post in top_ten:
         print(post.get('data', {}).get('title'))
-
-# Example usage:
-# top_ten('python')
