@@ -4,6 +4,7 @@ Query Reddit API for titles of top ten posts of a given subreddit
 """
 import requests
 
+
 def top_ten(subreddit):
     """
     Return top ten titles for a given subreddit
